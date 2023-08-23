@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container pt-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Xname</th>
+                <th scope="col">Xdescription</th>
+                <th scope="col">Xcode</th>
+                <th scope="col">Xlatitude</th>
+                <th scope="col">Xlongitude</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for x in xdata %}
+            <tr>
+                <td>{{ x.id }}</td>
+                <td>{{ x.xname }}</td>
+                <td>{{ x.xdescription }}</td>
+                <td>{{ x.xcode }}</td>
+                <td>{{ x.xlatitude }}</td>
+                <td>{{ x.xlongitude }}</td>
+            </tr>
+            {% empty %}
+                <!-- Content to render when items is empty -->
+                <tr>
+                    <td colspan="6">No items available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
