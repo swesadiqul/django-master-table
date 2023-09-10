@@ -1,23 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Business(models.Model):
     id = models.AutoField(primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=150)
-    founded_year = models.PositiveIntegerField()
-    industry = models.CharField(max_length=50)
+    founded_year = models.PositiveIntegerField(null=True, blank=True)
+    industry = models.CharField(max_length=50, null=True, blank=True)
     website = models.URLField()
-    contact_email = models.EmailField()
+    email = models.EmailField()
     logo = models.ImageField(upload_to='logos/', blank=True, null=True)
     social_media_facebook = models.URLField(blank=True, null=True)
     social_media_twitter = models.URLField(blank=True, null=True)
     social_media_linkedin = models.URLField(blank=True, null=True)
     revenue = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     employee_count = models.PositiveIntegerField(blank=True, null=True)
-    headquarters_address = models.CharField(max_length=200, blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True, null=True)
     ceo_name = models.CharField(max_length=100, blank=True, null=True)
+    is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,25 +41,28 @@ class Business(models.Model):
 
 
 
-class Type(models.Model):
-    name = models.CharField(max_length=50)
+# class Type(models.Model):
+#     name = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.name  
+#     def __str__(self):
+#         return self.name
 
 
-class UniversalEntities(models.Model):
-    xtype = models.ForeignKey('Type', on_delete=models.CASCADE)
-    xname = models.CharField(max_length=100)
-    xdescription = models.TextField(blank=True)
-    xcode = models.CharField(max_length=20, blank=True)
-    xlatitude = models.DecimalField(max_digits=10, decimal_places=6, null=True, blank=True)
-    xlongitude = models.DecimalField(max_digits=10, decimal_places=6, null=True, blank=True)
-    xcreated_at = models.DateTimeField(auto_now_add=True)
-    xupdated_at = models.DateTimeField(auto_now=True)
+# class UniversalEntities(models.Model):
+#     xbusiness = models.ForeignKey(Business, on_delete=models.CASCADE)
+#     xtype = models.ForeignKey('Type', on_delete=models.CASCADE)
+#     xname = models.CharField(max_length=100)
+#     xdescription = models.TextField(blank=True)
+#     xcode = models.CharField(max_length=20, blank=True)
+#     xlatitude = models.DecimalField(max_digits=10, decimal_places=6, null=True, blank=True)
+#     xlongitude = models.DecimalField(max_digits=10, decimal_places=6, null=True, blank=True)
+#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+#     status = models.BooleanField(default=True)
+#     xcreated_at = models.DateTimeField(auto_now_add=True)
+#     xupdated_at = models.DateTimeField(auto_now=True)                                      
 
-    def __str__(self):
-        return self.xname
+#     def __str__(self):
+#         return self.xname
     
-    class Meta:
-        unique_together = ('xtype', 'xname')
+    # class Meta:
+    #     unique_together = ('xtype', 'xname')
