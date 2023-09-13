@@ -1,5 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()  # Get the custom user model
+
 
 # Create your models here.
 class Business(models.Model):
@@ -32,6 +35,18 @@ class Business(models.Model):
                 self.id = 1000
         super().save(*args, **kwargs)
 
+        # if not User.objects.filter(business=self).exists():
+        #     user = User.objects.create(
+        #         email="{}".format(self.email),  # Set an email for the user
+        #         username=f"{self.name}{self.id}".replace(" ", ""),  # Set a username for the user
+        #         password="Usc-123!@#",  # You can set the initial password or handle it separately
+        #         business=self,  # Associate the user with the business
+        #         is_active=True,  # Set the user as active if needed
+        #         is_staff=True,  # Grant staff privileges if needed
+        #     )
+        #     user.set_password("password")  # Set the user's password
+        #     user.save()
+
 
     def __str__(self):
         return self.name
@@ -41,11 +56,12 @@ class Business(models.Model):
 
 
 
-# class Type(models.Model):
-#     name = models.CharField(max_length=50)
+class Type(models.Model):
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
 
 
 # class UniversalEntities(models.Model):
