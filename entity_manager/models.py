@@ -83,3 +83,51 @@ class Type(models.Model):
     
     # class Meta:
     #     unique_together = ('xtype', 'xname')
+
+
+class Table(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Menu(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Page(models.Model):
+    name = models.CharField(max_length=100)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    url = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Button(models.Model):
+    name = models.CharField(max_length=100)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    action = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class AccessControl(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)  # You'll need to define the 'Table' model
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)  # You'll need to define the 'Menu' model
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)  # You'll need to define the 'Page' model
+    button = models.ForeignKey(Button, on_delete=models.CASCADE)  # You'll need to define the 'Button' model
+    can_view = models.BooleanField(default=False)
+    can_edit = models.BooleanField(default=False)
+    can_delete = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'business', 'table', 'menu', 'page', 'button')
