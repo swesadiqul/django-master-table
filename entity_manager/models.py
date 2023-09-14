@@ -57,11 +57,12 @@ class Business(models.Model):
 
 
 class Type(models.Model):
-    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
+
 
 
 # class UniversalEntities(models.Model):

@@ -10,12 +10,15 @@ User = get_user_model()
 def create_user_for_business(sender, instance, created, **kwargs):
     if created:
         # Create a user associated with the newly created business
-        User.objects.create(
+        user = User.objects.create(
             email=f"{instance.email}",
             username=f"{instance.name.lower()}{instance.id}".replace(" ", ""),
-            password="use-!@#-123",
             business=instance,
             is_active=True,
             is_staff=True,
             is_superuser=False
         )
+        
+        # Set the user's password using set_password to ensure it's hashed
+        user.set_password("use-!@#-123")
+        user.save()
