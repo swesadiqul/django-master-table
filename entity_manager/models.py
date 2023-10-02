@@ -118,16 +118,22 @@ class Button(models.Model):
         return self.name
 
 
+class AccessCode(models.Model):
+    access_code = models.CharField(max_length=20)
+
+
+
 class AccessControl(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    business = models.ForeignKey(Business, on_delete=models.CASCADE)
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)  # You'll need to define the 'Table' model
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)  # You'll need to define the 'Menu' model
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)  # You'll need to define the 'Page' model
-    button = models.ForeignKey(Button, on_delete=models.CASCADE)  # You'll need to define the 'Button' model
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    access_code = models.ForeignKey(AccessCode, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, null=True, blank=True)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True, blank=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, null=True, blank=True)
+    button = models.ForeignKey(Button, on_delete=models.CASCADE, null=True, blank=True)
     can_view = models.BooleanField(default=False)
     can_edit = models.BooleanField(default=False)
     can_delete = models.BooleanField(default=False)
 
-    class Meta:
-        unique_together = ('user', 'business', 'table', 'menu', 'page', 'button')
+    # class Meta:
+    #     unique_together = ('user', 'business', 'table', 'menu', 'page', 'button')

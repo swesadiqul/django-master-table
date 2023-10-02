@@ -31,3 +31,9 @@ class TypeAdmin(admin.ModelAdmin):
         return qs
 
 admin.site.register(Type, TypeAdmin)
+admin.site.register(Table)
+admin.site.register(Menu)
+admin.site.register(Page)
+admin.site.register(Button)
+admin.site.register(AccessCode)
+admin.site.register(AccessControl)
